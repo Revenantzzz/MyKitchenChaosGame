@@ -5,7 +5,9 @@ using UnityEngine;
 public class ContainerCounter : Counter
 {
     public GameObject foodContain;
-    private GameObject foodSpawned;
+    private bool hasFood = false;
+    private float timer = 0;
+    private float spawnDelay = 1f;
     public override void Start()
     {
         base.Start();
@@ -14,18 +16,31 @@ public class ContainerCounter : Counter
     }
     public override void Update()
     {
-        base.Update();
         canPut = false;
-        canPick = true ;
-        SpawnFood();
+        base.Update();
+        if (foodInCounter == null && !hasFood)
+        {
+            SpawnFood();
+            hasFood = true;
+        }
+        if (hasFood)
+        {
+            timer += Time.deltaTime;
+            if (timer > spawnDelay)
+            {
+                hasFood = false;
+                timer = 0f;
+            }
+        }
+        if (foodInCounter != null)
+        {
+            hasFood = true;
+        }
     }
     private void SpawnFood()
     {
-        if(foodContain != null && foodSpawned == null)
-        {
-            foodSpawned = Instantiate(foodContain, transform);
-        }    
+        Instantiate(foodContain, transform);
     }
 }
-    
+
 

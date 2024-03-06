@@ -8,21 +8,13 @@ public class TrashCounter : Counter
     {
         base.Update();
         canPut = true;
-        if(FoodInCounter()!= null)
+        if(foodInCounter!= null)
         {
-            Destroy(FoodInCounter().gameObject);
+            Destroy(foodInCounter.gameObject);
         }
         if(plateInCounter != null)
         {
             Destroy(plateInCounter.gameObject);
         }
-    }
-    public override GameObject FoodInCounter()
-    {
-        return base.FoodInCounter();
-    }
-    public override GameObject FoodInHand()
-    {
-        return base.FoodInHand();
     }
 }

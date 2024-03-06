@@ -9,36 +9,38 @@ public class Counter : MonoBehaviour
     private GameObject _player;
     private PlayerManager _playerManager;
 
-    private bool _picking = false;
-    private bool _putting = false;
-
-    private GameObject _plateInCounter; 
+    private GameObject _plateInCounter;
     public GameObject plateInCounter
     {
         get { return _plateInCounter; }
         set { _plateInCounter = value; }
     }
-
+    private GameObject _foodInCounter;
+    public GameObject foodInCounter
+    {
+        get { return FoodInCounter(); }
+    }
+    private GameObject _foodInHand;
+    public GameObject foodInHand
+    {
+        get { return FoodInHand(); }
+    }
     private bool _canPick = true;
     public bool canPick
     {
         get { return _canPick; }
-        set 
-        { 
-            _canPick = value; 
+        set
+        {
+            _canPick = value;
         }
     }
     private bool _canPut = true;
     public bool canPut
     {
         get { return _canPut; }
-        set 
-        { 
+        set
+        {
             _canPut = value;
-            if(FoodInCounter() != null)
-            {
-                _canPut = false;
-            }
         }
     }
     private bool _interacting = false;
@@ -74,17 +76,13 @@ public class Counter : MonoBehaviour
     public virtual void Update()
     {
         if (_player != null)
-        {
-            CheckCanPut();
+        {  
             _playerManager = _player.GetComponent<PlayerManager>();
             if (FoodInCounter() != null && _playerManager.isPicking && canPick)
             {
                 Pick();
             }
-            if (plateInCounter != null && _playerManager.isPicking && canPick)
-            {
-                Pick();
-            }
+            CheckCanPut();
             if (FoodInHand() != null && _playerManager.isPutting && canPut)
             {
                 Put();
@@ -102,7 +100,7 @@ public class Counter : MonoBehaviour
     private void Pick()
     {
         isPicking = true;
-        if(FoodInCounter() != null)
+        if (FoodInCounter() != null)
         {
             FoodInCounter().gameObject.transform.parent = _player.transform;
         }
@@ -114,7 +112,7 @@ public class Counter : MonoBehaviour
     private void Put()
     {
         isPuting = true;
-        if(plateInCounter == null)
+        if (plateInCounter == null)
         {
             FoodInHand().gameObject.transform.parent = transform;
         }
@@ -134,26 +132,30 @@ public class Counter : MonoBehaviour
     {
         _player = null;
     }
-    public virtual GameObject FoodInCounter()
+    private GameObject FoodInCounter()
     {
         foreach (Transform child in transform)
         {
             if (child.gameObject.layer == 9)
             {
                 plateInCounter = child.gameObject;
+                isPuting = false;
+                return child.gameObject;
             }
             else
             {
                 if (child.gameObject.layer >= 7 && child.gameObject.layer <= 8)
                 {
                     isPuting = false;
+                    plateInCounter = null;
                     return child.gameObject;
                 }
-            }       
+            }
         }
+        plateInCounter = null;
         return null;
     }
-    public virtual GameObject FoodInHand()
+    private GameObject FoodInHand()
     {
         if (_player != null)
         {
@@ -167,20 +169,21 @@ public class Counter : MonoBehaviour
             }
             return null;
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
     public virtual void CheckCanPut()
     {
         if (FoodInHand() != null)
         {
-            if(plateInCounter != null)
+            if (plateInCounter != null)
             {
-                if(FoodInHand().gameObject.layer >= 7 && FoodInHand().gameObject.layer <= 8)
+                if (FoodInHand().gameObject.layer <= 8)
                 {
                     canPut = true;
+                }
+                else
+                {
+                    canPut = false;
                 }
             }
             else
@@ -188,6 +191,10 @@ public class Counter : MonoBehaviour
                 if (FoodInHand().gameObject.layer == 7 || FoodInHand().gameObject.layer == 9)
                 {
                     canPut = true;
+                }
+                else
+                {
+                    canPut = false;
                 }
             }
         }

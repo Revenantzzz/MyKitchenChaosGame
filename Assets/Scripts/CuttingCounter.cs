@@ -9,7 +9,7 @@ public class CuttingCounter : Counter
     public GameObject[] _uncutFoodList;
     public GameObject[] _cutFoodList;
     private int _cutTime = 0;
-    private int _doneTime = 20;
+    private int _doneTime = 10;
     private float _cuttingTimer = 0f;
     private int _indexInCutList = -1;
     private bool hasCut = false;
@@ -24,7 +24,7 @@ public class CuttingCounter : Counter
     {
         CheckCanPut();
         base.Update(); 
-        if(FoodInCounter() != null)
+        if(foodInCounter != null)
         {
             Cut();
         }  
@@ -35,12 +35,12 @@ public class CuttingCounter : Counter
     }
     public override void CheckCanPut()
     {
-        if (FoodInHand() != null)
+        if (foodInHand != null)
         {
             canPut = false;
             for (int i = 0; i < _uncutFoodList.Length; i++)
             {
-                if (FoodInHand().gameObject.name.Contains(_uncutFoodList[i].name))
+                if (foodInHand.gameObject.name.Contains(_uncutFoodList[i].name))
                 {
                     canPut = true;
                     _indexInCutList = i;
@@ -56,12 +56,11 @@ public class CuttingCounter : Counter
             if (_cutTime >= _doneTime)
             {
                 hasCut = true;
-                Destroy(FoodInCounter().gameObject);
+                Destroy(foodInCounter.gameObject);
                 _cuttingTimer = 0f;
                 _cutTime = 0;
                 Instantiate(_cutFoodList[_indexInCutList], transform);
                 canPick = true;
-                Debug.Log("canpick");
             }
             else
             {

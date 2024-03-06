@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 8397087152141674726}
   - component: {fileID: 5913155842526380797}
   m_Layer: 6
-  m_Name: ContainerCounter_Visual
+  m_Name: ContainerCounter_Visual - Meat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -189,8 +189,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.4515228, y: 1.4253702, z: 1.4575233}
-  m_Center: {x: -0.00026789308, y: 0.71319795, z: -0.013563156}
+  m_Size: {x: 1.5, y: 1.3, z: 1.5}
+  m_Center: {x: 0, y: 0.65, z: 0}
 --- !u!114 &5913155842526380797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8361d5409743dc248baed2d825390367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodContain: {fileID: 0}
+  foodContain: {fileID: 3812876574508226177, guid: 21b2fcdae015b8c4c83ff4b68b31b06f,
+    type: 3}
 --- !u!1 &5261771210811040880
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +278,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: da2d04fe27b94e34ea0b624569b48a6f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: aa1bacc24dde76e47b2ec0dd4e82385b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

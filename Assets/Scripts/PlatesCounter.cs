@@ -5,8 +5,9 @@ using UnityEngine;
 public class PlatesCounter : Counter
 {
     public GameObject plate;
-    private GameObject plateSpawned;
-
+    private bool hasPlate = false;
+    private float spawnDelay = 1f;
+    private float timer = 0f;
     public override void Start()
     {
         base.Start();
@@ -14,13 +15,27 @@ public class PlatesCounter : Counter
     public override void Update()
     {
         base.Update();
-        SpawnPlate();
+        if (foodInCounter == null && !hasPlate) 
+        {
+            SpawnPlate();
+            hasPlate = true;
+        }
+        if(hasPlate)
+        {
+            timer += Time.deltaTime;
+            if (timer > spawnDelay)
+            {
+                hasPlate = false;
+                timer = 0f;
+            }
+        }
+        if(foodInCounter != null)
+        {
+            hasPlate = true;
+        }
     }
     private void SpawnPlate()
     {
-        if(plateSpawned == null)
-        {
-            plateSpawned = Instantiate(plate, transform);
-        }   
+        Instantiate(plate, transform);
     }
 }
