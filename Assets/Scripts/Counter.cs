@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
-    private GameObject _player;
-    private PlayerManager _playerManager;
+    private GameObject player;
+    private PlayerManager playerManager;
 
     private GameObject _plateInCounter;
     public GameObject plateInCounter
@@ -31,7 +31,7 @@ public class Counter : MonoBehaviour
         get { return _canPick; }
         set
         {
-            _canPick = value;
+            canPick = value;
         }
     }
     private bool _canPut = true;
@@ -40,7 +40,7 @@ public class Counter : MonoBehaviour
         get { return _canPut; }
         set
         {
-            _canPut = value;
+            canPut = value;
         }
     }
     private bool _interacting = false;
@@ -52,7 +52,7 @@ public class Counter : MonoBehaviour
         }
         set
         {
-            _interacting = value;
+            interacting = value;
         }
     }
     private bool _isPicking = false;
@@ -75,19 +75,19 @@ public class Counter : MonoBehaviour
     }
     public virtual void Update()
     {
-        if (_player != null)
+        if (player != null)
         {  
-            _playerManager = _player.GetComponent<PlayerManager>();
-            if (FoodInCounter() != null && _playerManager.isPicking && canPick)
+            playerManager = player.GetComponent<PlayerManager>();
+            if (FoodInCounter() != null && playerManager.isPicking && canPick)
             {
                 Pick();
             }
             CheckCanPut();
-            if (FoodInHand() != null && _playerManager.isPutting && canPut)
+            if (FoodInHand() != null && playerManager.isPutting && canPut)
             {
                 Put();
             }
-            if (_playerManager.isInteracting)
+            if (playerManager.isInteracting)
             {
                 interacting = true;
             }
@@ -102,11 +102,11 @@ public class Counter : MonoBehaviour
         isPicking = true;
         if (FoodInCounter() != null)
         {
-            FoodInCounter().gameObject.transform.parent = _player.transform;
+            FoodInCounter().gameObject.transform.parent = player.transform;
         }
         if (plateInCounter != null)
         {
-            plateInCounter.gameObject.transform.parent = _player.transform;
+            plateInCounter.gameObject.transform.parent = player.transform;
         }
     }
     private void Put()
@@ -125,12 +125,12 @@ public class Counter : MonoBehaviour
     {
         if (other.gameObject.layer == 3)
         {
-            _player = other.gameObject;
+            player = other.gameObject;
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        _player = null;
+        player = null;
     }
     private GameObject FoodInCounter()
     {
@@ -157,9 +157,9 @@ public class Counter : MonoBehaviour
     }
     private GameObject FoodInHand()
     {
-        if (_player != null)
+        if (player != null)
         {
-            foreach (Transform child in _player.transform)
+            foreach (Transform child in player.transform)
             {
                 if (child.gameObject.layer >= 7 && child.gameObject.layer <= 9)
                 {
@@ -177,7 +177,7 @@ public class Counter : MonoBehaviour
         {
             if (plateInCounter != null)
             {
-                if (FoodInHand().gameObject.layer <= 8)
+                if (FoodInHand().gameObject.layer == 8)
                 {
                     canPut = true;
                 }

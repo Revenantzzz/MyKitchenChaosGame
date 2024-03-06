@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
-    private GameObject _foodParent;
-    private Vector3 _inHandPosition = new Vector3(0, 1.4f, .85f);
-    private Vector3 _inCounterPosition = new Vector3(0, 1.3f, 0);
-    private Vector3 _inPlatePosition = new Vector3(0, .2f, 0);
+    private GameObject foodParent;
+    private Vector3 inHandPosition = new Vector3(0, 1.4f, .85f);
+    private Vector3 inCounterPosition = new Vector3(0, 1.3f, 0);
+    private Vector3 inPlatePosition = new Vector3(0, .2f, 0);
     public virtual void Start()
     {
 
@@ -15,40 +15,40 @@ public class Food : MonoBehaviour
 
     public virtual void Update()
     {
-        _foodParent = FoodParent();
+        foodParent = FoodParent();
         Position();
     }
     private void Position()
     {
-        if (_foodParent.layer == 3)
+        if (foodParent.layer == 3)
         {
-            ChangePos(_inHandPosition);
+            ChangePos(inHandPosition);
         }
         else
         {
-            if (_foodParent.layer == 6)
+            if (foodParent.layer == 6)
             {
-                if (_foodParent.GetComponent<StoveCounter>() != null)
+                if (foodParent.GetComponent<StoveCounter>() != null)
                 {
-                    ChangePos(_inCounterPosition + new Vector3(0, .2f, 0));
+                    ChangePos(inCounterPosition + new Vector3(0, .2f, 0));
                 }
                 else
                 {
-                    if (_foodParent.GetComponent<ContainerCounter>() != null || _foodParent.GetComponent<DeliveryCounter>())
+                    if (foodParent.GetComponent<ContainerCounter>() != null || foodParent.GetComponent<DeliveryCounter>())
                     {
                         ChangePos(Vector3.zero);
                     }
                     else
                     {
-                        ChangePos(_inCounterPosition);
+                        ChangePos(inCounterPosition);
                     }
                 }
             }
             else
             {
-                if (_foodParent.layer == 9)
+                if (foodParent.layer == 9)
                 {
-                    ChangePos(_inPlatePosition);
+                    ChangePos(inPlatePosition);
                 }
             }
         }

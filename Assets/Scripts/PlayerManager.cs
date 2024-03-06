@@ -5,16 +5,16 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
-    private CharacterController _characterController;
-    private Animator _animator;
+    private CharacterController characterController;
+    private Animator animator;
 
-    private GameObject _food;
-    private bool _isCounter = false;
+    private GameObject food;
+    private bool isCounter = false;
 
-    private float _speed = 5f;
-    private Vector3 _move = Vector3.zero;
-    private Vector2 _moveInput = Vector2.zero;
-    private Vector2 _direction = Vector2.zero;
+    private float speed = 5f;
+    private Vector3 move = Vector3.zero;
+    private Vector2 moveInput = Vector2.zero;
+    private Vector2 direction = Vector2.zero;
 
     private bool _isPicking;
     public bool isPicking
@@ -55,8 +55,8 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        _characterController = GetComponent<CharacterController>();
-        _animator = GetComponent<Animator>();
+        characterController = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
     private void Update()
     {
@@ -66,33 +66,33 @@ public class PlayerManager : MonoBehaviour
 
     private void MovePlayer()
     {
-        _characterController.Move(_move * Time.deltaTime * _speed);
+        characterController.Move(move * Time.deltaTime * speed);
     }
     private void RotatePlayer()
     {
-        var targetAngle = Mathf.Atan2(_direction.x, _direction.y) * Mathf.Rad2Deg;
+        var targetAngle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, targetAngle, 0);
     }
     public void OnMove(InputAction.CallbackContext context)
     {
-        _moveInput = context.ReadValue<Vector2>();
-        _move = new Vector3(_moveInput.x, 0, _moveInput.y);
-        if(_moveInput != Vector2.zero)
+        moveInput = context.ReadValue<Vector2>();
+        move = new Vector3(moveInput.x, 0, moveInput.y);
+        if(moveInput != Vector2.zero)
         {
-            _direction = _moveInput;
+            direction = moveInput;
         }
         if (context.started)
         {
-            _animator.SetBool("IsWalking", true);
+            animator.SetBool("IsWalking", true);
         }
         if (context.canceled)
         {
-            _animator.SetBool("IsWalking", false);
+            animator.SetBool("IsWalking", false);
         }
     }
     public void OnPickPut(InputAction.CallbackContext context)
     {
-        if (context.started && _isCounter)
+        if (context.started && isCounter)
         {
             if (FoodInHand() != null)
             {
@@ -113,7 +113,7 @@ public class PlayerManager : MonoBehaviour
     }
     public void OnInteracting(InputAction.CallbackContext context)
     {
-        if (context.started && _isCounter)
+        if (context.started && isCounter)
         {
             isInteracting = true;
         }
@@ -137,11 +137,11 @@ public class PlayerManager : MonoBehaviour
     {
         if (other.gameObject.layer == 6)
         {
-            _isCounter = true;
+            isCounter = true;
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        _isCounter = false;
+        isCounter = false;
     }
 }
