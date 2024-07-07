@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f0955b09e74fe148830954b179e9152, type: 3}
+  m_Name: FoodInDish
+  m_EditorClassIdentifier: 
+  ContainFoodList:
+  - {fileID: 11400000, guid: bb14c07858af42a4f931df92634ab2a6, type: 2}
+  - {fileID: 11400000, guid: 4d28a36232b88b74086581842872c78f, type: 2}
+  - {fileID: 11400000, guid: 188937f2114484d428d76b2b6e5085a2, type: 2}
+  - {fileID: 11400000, guid: b19a3eb124c43f8408aa3c697621d0d3, type: 2}
+  - {fileID: 11400000, guid: f029b6c8ba851d042aee79d7ee2d80dc, type: 2}
+  foodInKitchenwareParent: {fileID: 6575657360254252499, guid: f104cf01ed6c61d43bd353ec7b8f834b, type: 3}
