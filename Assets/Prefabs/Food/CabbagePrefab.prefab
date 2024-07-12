@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 4d28a36232b88b74086581842872c78f, type: 2}
     - target: {fileID: 4316308925098247491, guid: 74116710ea9419e43b02e3278db23bc7, type: 3}
       propertyPath: timesToCut
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7519412452499786316, guid: 74116710ea9419e43b02e3278db23bc7, type: 3}
       propertyPath: m_Name

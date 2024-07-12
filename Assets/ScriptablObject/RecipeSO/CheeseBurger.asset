@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d08644cf9ea44784daaa480faea2d5a4, type: 3}
   m_Name: CheeseBurger
   m_EditorClassIdentifier: 
-  foodInRecipe:
+  foodsInRecipe:
   - {fileID: 11400000, guid: bb14c07858af42a4f931df92634ab2a6, type: 2}
   - {fileID: 11400000, guid: b19a3eb124c43f8408aa3c697621d0d3, type: 2}
   - {fileID: 11400000, guid: 188937f2114484d428d76b2b6e5085a2, type: 2}
+  Score: 150

@@ -8,6 +8,7 @@ namespace MyKitchenChaos
 {
     public class CuttingCounter : Counter
     {
+        [SerializeField] ProgressBar progressBar;
         int cuttingTimes;
         int cuttingTimer = 0;
         public event UnityAction Cut;
@@ -19,36 +20,42 @@ namespace MyKitchenChaos
         private void Start()
         {
             PlayerObjectCarrier.Instance.Interacted += Cutting;
+            progressBar.gameObject.SetActive(false);
         }
         private void Cutting(Counter counter)
         {
-            if (counter == this && HasKitchenObject)
+            if (counter != this || !HasKitchenObject)
             {
-                if (this.kitchenObject is CuttingFood cutting)
+               return;
+            }
+            if (this.kitchenObject is CuttingFood cutting)
+            {
+                progressBar.gameObject.SetActive(true);
+                cuttingTimes = cutting.CuttingTime;
+                if (cuttingTimer >= cuttingTimes)
                 {
-                    cuttingTimes = cutting.CuttingTime;
-                    StartCoroutine(CutFood(cutting));
+                    progressBar.gameObject.SetActive(false);
+                    cutting.Cut();
+                    return;
                 }
+                StartCoroutine(CutFood(cutting));
             }
         }
         IEnumerator CutFood(CuttingFood cutting)
         {            
             if (cutting.IsRaw)
             {
-                if (cuttingTimer > cuttingTimes)
-                {
-                    cutting.Cut();
-                    cuttingTimer = 0;
-                }
-                else
-                {
-                    cuttingTimer++;
-                    Cut?.Invoke();
-                }
+                cuttingTimer++;
+                Cut?.Invoke();
+                SetProgressbarValue();
             }
             PlayerObjectCarrier.Instance.Interacted -= Cutting;
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.15f);
             PlayerObjectCarrier.Instance.Interacted += Cutting;
+        }
+        private void SetProgressbarValue()
+        {
+            progressBar.SetProgressValue(((float)cuttingTimer / cuttingTimes));
         }
     }
 }

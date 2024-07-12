@@ -24,6 +24,7 @@ namespace MyKitchenChaos
             }
             parentCounter = null;
         }
+        //Disable kitchen object and put it back to its parent counter
         public virtual void DisableKitchenObject()
         {
             this.transform.gameObject.SetActive(false);
@@ -46,6 +47,7 @@ namespace MyKitchenChaos
                 Destroy(this.gameObject);
             }
         }
+        //After disable and come back to parent Counter, push this to parent counter food or dish stack
         private void AddToStack(Counter parentCounter)
         {
             if (parentCounter is IContainKitchenObject container)

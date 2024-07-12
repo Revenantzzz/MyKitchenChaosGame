@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d08644cf9ea44784daaa480faea2d5a4, type: 3}
   m_Name: Salad
   m_EditorClassIdentifier: 
-  foodInRecipe:
+  foodsInRecipe:
   - {fileID: 11400000, guid: 4d28a36232b88b74086581842872c78f, type: 2}
   - {fileID: 11400000, guid: f029b6c8ba851d042aee79d7ee2d80dc, type: 2}
+  Score: 100

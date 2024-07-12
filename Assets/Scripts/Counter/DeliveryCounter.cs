@@ -12,6 +12,10 @@ namespace MyKitchenChaos
         {
             deliveryManager = GetComponent<DeliveryManager>();
         }
+        private void Update()
+        {
+            ResetFood();
+        }
         public override bool SetKitchenObject(KitchenObject kitchenObject)
         {
             if (!CheckDish(kitchenObject))
@@ -20,6 +24,7 @@ namespace MyKitchenChaos
             }
             return base.SetKitchenObject(kitchenObject);
         }
+        // Check if kitchenobject is dish
         private bool CheckDish(KitchenObject kitchenObject)
         {
             if (kitchenObject is Dish dish)
@@ -28,7 +33,7 @@ namespace MyKitchenChaos
             }
             return false;
         }
-       
+        
         private void ResetFood()
         {
             if(HasKitchenware())

@@ -7,6 +7,7 @@ namespace MyKitchenChaos
     [CreateAssetMenu()]
     public class RecipeSO : ScriptableObject
     {
-        public List<FoodSO> foodInRecipe;
+        public List<FoodSO> foodsInRecipe;
+        public int Score;
     }
 }

@@ -33,13 +33,9 @@ namespace MyKitchenChaos
                 prefab.transform.position = transform.TransformPoint(Vector3.zero);
             }
         }
+        //if this has no dish then spawn 
         public void ManageKitchenObject()
         {          
-            //Mannaage Kithcen Object
-            if (!HasKitchenObject && dishStack.Count > 0 )
-            {
-                kitchenObject = dishStack.Pop().GetComponent<KitchenObject>();
-            }
             if (dishStack.Count <= 0)
             {
                 SpawnKitchenObject(Dish, 10);
@@ -51,6 +47,7 @@ namespace MyKitchenChaos
             dishOntopCount--;
             SetTopDish();
         }
+        // Set location of dish layers
         private void SetLocatePoint()
         {
             locatePoint = new Vector3(0, 1.2f, 0);
@@ -61,19 +58,20 @@ namespace MyKitchenChaos
                 locateDishOnTop.Add(locate);
             }
         }
+        //Set dish layer after time
         IEnumerator SetDishOnTop()
         {          
             dishOntopCount++;
             if (dishOntopCount < locateDishOnTop.Count)
             {
-                kitchenObject.transform.position = this.transform.TransformPoint(locateDishOnTop[dishOntopCount]);
+               // kitchenObject.transform.position = this.transform.TransformPoint(locateDishOnTop[dishOntopCount]);
                 if (dishOntopCount > 1)
                 {
-
                     for (int i = 1; i < dishOntopCount; i++)
                     {
                         GameObject prefab = dishStack.Pop();
                         prefab.transform.position = this.transform.TransformPoint(locateDishOnTop[i]);
+                        kitchenObject = prefab.GetComponent<KitchenObject>();
                     }
                 }
             }

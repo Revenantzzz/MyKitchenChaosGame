@@ -11,6 +11,7 @@ namespace MyKitchenChaos
     {
         [SerializeField] GameObject foodPrefab;
         [SerializeField] List<SpriteRenderer> containerIcon;
+        [SerializeField] int maxSpawnNum = 10;
         public event UnityAction OpenClose;
 
         Stack<GameObject> foodStack = new Stack<GameObject>();
@@ -20,24 +21,26 @@ namespace MyKitchenChaos
         }
         private void Start()
         {
-            SpawnKitchenObject(foodPrefab, 10);               
+            SpawnKitchenObject(foodPrefab, maxSpawnNum);               
         }
         private void Update()
         {
             ManageKitchenObject();
             SetContainerIcon();
         }
+        //if no food then Spawn new
         public void ManageKitchenObject()
         {
+            if (foodStack.Count <= 0)
+            {
+                SpawnKitchenObject(foodPrefab, maxSpawnNum);
+            }
             if (!HasKitchenObject)
             {
                 kitchenObject = foodStack.Pop().GetComponent<KitchenObject>();
-            }
-            if (foodStack.Count <= 0)
-            {
-                SpawnKitchenObject(foodPrefab, 10);
-            }
+            }           
         }
+        //Spawn new foodPrefab with amount equal maxNum
         public void SpawnKitchenObject(GameObject foodPrefab, int maxNum)
         {
             foodStack.Clear();
@@ -57,6 +60,7 @@ namespace MyKitchenChaos
         {
             foodStack.Push(food);
         }
+        //Set container Icon match to food
         private void SetContainerIcon()
         {
             if(foodPrefab.TryGetComponent<Food>(out Food food))
