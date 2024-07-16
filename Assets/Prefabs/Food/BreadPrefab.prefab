@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4957787831960699669}
   - component: {fileID: 8697696846986621524}
   - component: {fileID: 1767537768045837074}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BreadPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}

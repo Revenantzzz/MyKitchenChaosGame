@@ -5,7 +5,7 @@ namespace MyKitchenChaos
 {
     public class ProgressBar : MonoBehaviour
     {
-        [SerializeField] Slider progressBar;
+        [SerializeField] private Slider progressBar;
 
         private void Awake()
         {

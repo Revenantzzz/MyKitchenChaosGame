@@ -3,30 +3,40 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace MyKitchenChaos
 {
     public class UIDishOrdered : MonoBehaviour
     {
-        public static UIDishOrdered instance { get; private set; }
+        public static UIDishOrdered Instance { get; private set; }
 
         [SerializeField] UIRecipe uiRecipe;
 
         List<UIRecipe> uiRecipeList = new List<UIRecipe>();
-        private int maxRecipeNum => DeliveryManager.Instance.maxDishNum;
+        public event UnityAction<RecipeSO> RemoveRecipe;
+        private int MaxRecipeNum => DeliveryManager.Instance.MaxDishInMenu;
+        private List<RecipeSO> RecipesInMenu => DeliveryManager.Instance.RecipeMenu;
 
+        public event UnityAction<int> OnChangeScore;
         private void Awake()
         {
-            instance = this;
+            Instance = this;
             SpawnUIRecipe();
         }
+        private void Start()
+        {           
+            DeliveryManager.Instance.OnCompleteRecipe += RecipeComplete;
+        }
+
         private void SpawnUIRecipe()
         {
-            for (int i = 0; i < maxRecipeNum; i++)
+            for (int i = 0; i < MaxRecipeNum; i++)
             {
                 UIRecipe recipe = Instantiate(uiRecipe, this.transform);
                 uiRecipeList.Add(recipe);
                 recipe.gameObject.SetActive(false);
+                recipe.OnRecipeComplete += RecipeComplete;
             }
         }
         //Set UIReicpe match recipeSO
@@ -46,19 +56,22 @@ namespace MyKitchenChaos
             }            
         }
         //Disable uiRecipe when complete or timeout
-        public void CompleteRecipe(UIRecipe uiRecipe, RecipeSO recipeSO)
-        {    
+        //Remove then add uiRecipe into uiRecipeList make it the last in list
+        public void RecipeComplete(UIRecipe uiRecipe,RecipeSO recipeSO)
+        {
             if(uiRecipe == null)
             {
-                uiRecipe = this.uiRecipeList[DeliveryManager.Instance.RecipeMenu.IndexOf(recipeSO)];
-            }
+                uiRecipe = this.uiRecipeList[RecipesInMenu.IndexOf(recipeSO)];
+                OnChangeScore?.Invoke(recipeSO.Score);
+            }            
             if (uiRecipe == null) return;
-            uiRecipe.gameObject.SetActive(false);
+            OnChangeScore?.Invoke(-50);
+            uiRecipe.DisableUIRecipe();
             uiRecipeList.Remove(uiRecipe);
             uiRecipeList.Add(uiRecipe);
             uiRecipe.transform.SetParent(null);            
             uiRecipe.transform.SetParent(this.transform);
-            DeliveryManager.Instance.RemoveRecipe(recipeSO);
+            RemoveRecipe?.Invoke(recipeSO);
         }
     }
 }

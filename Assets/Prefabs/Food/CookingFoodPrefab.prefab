@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4444720591562217681}
   - component: {fileID: 7906509060505757265}
   - component: {fileID: 6282843014693426888}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CookingFoodPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,6 +48,8 @@ MonoBehaviour:
   foodSO: {fileID: 11400000, guid: 1f88456a1ce796a4ab05fc3eb5b5b830, type: 2}
   cookedFoodSO: {fileID: 11400000, guid: b19a3eb124c43f8408aa3c697621d0d3, type: 2}
   burnedFoodSO: {fileID: 11400000, guid: fcdcaa750631d694580c30a392d60998, type: 2}
+  timeToCook: 0
+  timeToBurn: 0
 --- !u!65 &6282843014693426888
 BoxCollider:
   m_ObjectHideFlags: 0

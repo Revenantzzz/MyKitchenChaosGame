@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2860268799050400248}
   - component: {fileID: 4316308925098247491}
   - component: {fileID: 1690387560900162064}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CuttingFoodPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foodSO: {fileID: 11400000, guid: 5cb879437ba87d646b1c76d7d5702aff, type: 2}
   cutFoodSO: {fileID: 11400000, guid: 4d28a36232b88b74086581842872c78f, type: 2}
+  timesToCut: 0
 --- !u!65 &1690387560900162064
 BoxCollider:
   m_ObjectHideFlags: 0

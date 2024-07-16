@@ -2,21 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace MyKitchenChaos
 {
     public class UIRecipe : MonoBehaviour
     {
-        [SerializeField] Transform foodIconPanel;
-        [SerializeField] Image foodIcon;
-        [SerializeField] Slider progress;
+        [SerializeField] private Transform foodIconPanel;
+        [SerializeField] private Image foodIcon;
+        [SerializeField] private Slider progress;
 
         RecipeSO recipe;      
         List<Image> foodIconList = new List<Image>();
-        int maxRecipeNumber => DeliveryManager.Instance.maxDishNum;
+        int MaxRecipeNumber => DeliveryManager.Instance.MaxDishInMenu;
+        float MaxProgressTime => DeliveryManager.Instance.MaxDeliveryWaitTime;
         float timer = 0;
-        float maxProgressTime = 15f;
+        public event UnityAction<UIRecipe,RecipeSO> OnRecipeComplete;
 
         //Spawn icon prefab when enable
         private void OnEnable()
@@ -25,7 +27,7 @@ namespace MyKitchenChaos
         }
         private void Start()
         {
-            timer = maxProgressTime;
+            timer = MaxProgressTime;
         }
         private void Update()
         {
@@ -35,7 +37,7 @@ namespace MyKitchenChaos
         private void SpawnFoodIcon()
         {
             foodIconList.Clear();
-            for(int i = 0; i < maxRecipeNumber; i++)
+            for(int i = 0; i < MaxRecipeNumber; i++)
             {
                 Image image =  Instantiate(foodIcon, foodIconPanel);
                 foodIconList.Add(image);
@@ -72,15 +74,21 @@ namespace MyKitchenChaos
             }
             if(timer <= 0)
             {                              
-                UIDishOrdered.instance.CompleteRecipe(this, recipe);
+                OnRecipeComplete?.Invoke(this,recipe);
                 recipe = null;
                 SetFoodIcon(null);
-                timer = maxProgressTime;
+                timer = MaxProgressTime;
                 this.gameObject.SetActive(false);
                 return;
             }
             timer -= Time.deltaTime;
-            progress.value = timer/maxProgressTime;
+            progress.value = timer/MaxProgressTime;
+        }
+        public void DisableUIRecipe()
+        {
+            this.gameObject.SetActive(false);
+            SetFoodIcon(null );
+            timer = MaxProgressTime;
         }
     }
 }

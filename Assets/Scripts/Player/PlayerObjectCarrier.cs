@@ -8,9 +8,9 @@ namespace MyKitchenChaos
     {
 
         [Header("Interact Setting")]
-        [SerializeField] float interactDistance = 3f;
-        [SerializeField] LayerMask kitchenObjectLayer;
-        [SerializeField] LayerMask counterLayer;
+        [SerializeField] private float interactDistance = 3f;
+        [SerializeField] private LayerMask kitchenObjectLayer;
+        [SerializeField] private LayerMask counterLayer;
 
         public static PlayerObjectCarrier Instance { get; private set; }
         public event UnityAction<Counter> OnSelectedCounter;
@@ -18,7 +18,8 @@ namespace MyKitchenChaos
 
         private float interactCounterDistance;
         private PlayerController playerController;
-        private Vector3 interactSize;
+        private Vector3 interactBoxSize;
+        private Vector3 boxStart;
         private RaycastHit raycastHit;
         private RaycastHit boxcastHit;
 
@@ -27,10 +28,11 @@ namespace MyKitchenChaos
         private void Awake()
         {
             Instance = this;
-            locatePoint = new Vector3(0, 1.5f, 1f);
+            locatePoint = new Vector3(0, 1.5f, 1.1f);
             playerController = GetComponent<PlayerController>();
             interactCounterDistance = interactDistance - 2;
-            interactSize = new Vector3(.5f, 1f, .5f);
+            interactBoxSize = new Vector3(.7f, 2f, .7f);
+            
         }
         private void Start()
         {
@@ -53,14 +55,15 @@ namespace MyKitchenChaos
         }
         private void CheckKitchenObject()
         {
+            boxStart = this.transform.position - transform.forward;
             //Check if there are any kitchenObject on floor in front of Player using Boxcast
             if (Physics.BoxCast(
-                this.transform.position, 
-                interactSize, 
+                this.boxStart, 
+                interactBoxSize, 
                 this.transform.forward, 
                 out boxcastHit, 
                 Quaternion.identity, 
-                interactDistance, 
+                interactDistance + 2, 
                 kitchenObjectLayer))
             {
                 if (boxcastHit.transform.TryGetComponent<KitchenObject>(out KitchenObject kitchenObj))
@@ -108,7 +111,6 @@ namespace MyKitchenChaos
                     ResetKitchenObject();
                     return;
                 }
-                return;
             }
             else
             {
@@ -140,7 +142,6 @@ namespace MyKitchenChaos
                 if (selectedKitchenObject != null)
                 {
                     kitchenware.SetFood(selectedKitchenObject as Food);
-                    return;
                 }
                 Put();
                 return;
@@ -149,7 +150,6 @@ namespace MyKitchenChaos
             {
                 if (kitchenware.SetFood(counter.GetKitchenObject() as Food))
                 {
-                    Debug.Log("SetFood");
                     counter.ResetKitchenObject();
                     return;
                 }
@@ -184,7 +184,7 @@ namespace MyKitchenChaos
                 }
             }
             playerController.PickAndPut -= PickAndPut;
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.12f);
             playerController.PickAndPut += PickAndPut;
         }
        

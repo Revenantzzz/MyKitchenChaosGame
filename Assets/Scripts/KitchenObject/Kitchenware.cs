@@ -8,8 +8,8 @@ namespace MyKitchenChaos
     public class Kitchenware : KitchenObject
     {
         [SerializeField] KitchenwareFoodListSO foodListSO;
-        private List<FoodSO> canContainFoodSO => foodListSO.ContainFoodList;
-        private Transform foodInKitchenwareParent => foodListSO.foodInKitchenwareParent;
+        private List<FoodSO> CanContainFoodSO => foodListSO.ContainFoodList;
+        private Transform FoodInKitchenwareParent => foodListSO.foodInKitchenwareParent;
         private Transform foodParent;
 
         private List<FoodInKitchenware> foodList = new List<FoodInKitchenware>();
@@ -21,7 +21,7 @@ namespace MyKitchenChaos
         }
         private void Initialize()
         {
-            foodParent = Instantiate(foodInKitchenwareParent,transform);
+            foodParent = Instantiate(FoodInKitchenwareParent,transform);
             foreach(Transform child in foodParent)
             {   
                 if(child.TryGetComponent<FoodInKitchenware>(out FoodInKitchenware food))
@@ -34,7 +34,7 @@ namespace MyKitchenChaos
         {
             if(food != null)
             {
-                foreach (FoodSO foodSO in canContainFoodSO)
+                foreach (FoodSO foodSO in CanContainFoodSO)
                 {
                     if (food.GetMainFoodSO() == foodSO)
                     {
@@ -65,6 +65,14 @@ namespace MyKitchenChaos
         {
             foodSOList.Clear();
             foodSOList = new List<FoodSO>();
+        }
+        public override void DisableKitchenObject()
+        {
+            base.DisableKitchenObject();
+            foreach(FoodInKitchenware food in foodList)
+            {
+                food.gameObject.SetActive(false);
+            }
         }
     }
 }

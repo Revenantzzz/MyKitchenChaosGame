@@ -50,11 +50,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7906509060505757265, guid: a3a5af25f55c0cb479e92128fca32ace, type: 3}
       propertyPath: timeToBurn
-      value: 8
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7906509060505757265, guid: a3a5af25f55c0cb479e92128fca32ace, type: 3}
       propertyPath: timeToCook
-      value: 4
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8693220449378289926, guid: a3a5af25f55c0cb479e92128fca32ace, type: 3}
       propertyPath: m_Name
